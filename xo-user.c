@@ -6,7 +6,9 @@
 #include <string.h>
 #include <sys/select.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
+
 
 #include "game.h"
 
@@ -121,6 +123,8 @@ int main(int argc, char *argv[])
     read_attr = true;
     end_attr = false;
 
+    time_t current_time;
+
     while (!end_attr) {
         FD_ZERO(&readset);
         FD_SET(STDIN_FILENO, &readset);
@@ -141,6 +145,8 @@ int main(int argc, char *argv[])
             read(device_fd, display_buf, N_GRIDS);
             draw_board(display_buf);
             printf("%s", draw_buffer);
+            time(&current_time);
+            printf("Current time: %s", ctime(&current_time));
         }
     }
 
